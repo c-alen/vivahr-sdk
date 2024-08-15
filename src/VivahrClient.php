@@ -4,6 +4,7 @@ namespace VIVAHR;
 
 use VIVAHR\Auth\Authentication;
 use VIVAHR\Endpoints\Jobs;
+use VIVAHR\Endpoints\Candidates;
 
 class VivahrClient
 {
@@ -26,68 +27,9 @@ class VivahrClient
     {
         return new Jobs(self::$auth);
     }
-}
 
-
-/*
-namespace VIVAHR;
-
-use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Exception\RequestException;
-use VIVAHR\Exceptions\ApiException;
-
-class VivahrClient
-{
-    protected $httpClient;
-    protected $baseUrl;
-    protected $clientId;
-    protected $clientSecret;
-    protected $accessToken;
-
-    public function __construct($clientId, $clientSecret, $baseUrl)
+    public static function candidates()
     {
-        $this->clientId = $clientId;
-        $this->clientSecret = $clientSecret;
-        $this->baseUrl = rtrim($baseUrl, '/');
-        $this->httpClient = new HttpClient([
-            'base_uri' => $this->baseUrl,
-            'headers' => [
-                'Accept' => 'application/json',
-            ]
-        ]);
+        return new Candidates(self::$auth);
     }
-
-    public function authenticate($username, $password, $scope = '')
-    {
-        try {
-            $response = $this->httpClient->post('/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => $this->clientId,
-                    'client_secret' => $this->clientSecret,
-                    'username' => $username,
-                    'password' => $password,
-                    'scope' => $scope,
-                ]
-            ]);
-
-            $data = json_decode($response->getBody()->getContents(), true);
-            $this->accessToken = $data['access_token'];
-            $this->httpClient = new HttpClient([
-                'base_uri' => $this->baseUrl,
-                'headers' => [
-                    'Authorization' => "Bearer {$this->accessToken}",
-                    'Accept' => 'application/json',
-                ]
-            ]);
-
-            return $data;
-        } catch (RequestException $e) {
-            throw new ApiException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    // Other methods (get, post, put, delete) remain the same...
 }
-
-*/
