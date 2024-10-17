@@ -11,7 +11,7 @@ class Client
     public function __construct($authToken)
     {
         $this->client = new GuzzleClient([
-            'base_uri' => 'https://api.vivahr.local/',
+            'base_uri' => 'https://api.vivahr.local/v1/',
             'headers' => [
                 'Authorization' => 'Bearer ' . $authToken,
                 'Accept' => 'application/json',
